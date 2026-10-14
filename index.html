@@ -1,0 +1,36 @@
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+        <title>After School Classes</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+        <script src="courses.js"></script>
+
+    </head>
+
+    <body>
+
+        <div id="app">
+            <h1 v-text="site_name"></h1>
+            <div v-for="course in courses" :key="course.id">
+                <h2 v-text="course.subject"></h2>
+                <figure>
+                    <img :src="course.image" :alt="course.subject" width="200px" height="200px">
+                </figure>
+                <p v-html="course.description"></p>
+                <p>Location: {{course.location}}</p>
+                <p>Price: AED {{course.price}}</p>
+                <p>Spaces: {{course.spaces}}</p>
+                <div>
+                    <span v-for="rating in course.rating">★</span>
+                    <span v-for="rating in 5 - course.rating">☆</span>
+                </div>
+            </div>
+        </div>
+
+        <script src="app.js"></script>
+
+    </body>
+
+</html>
