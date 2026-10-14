@@ -49,6 +49,23 @@
                         <button v-on:click="removeFromCart(course)">Remove</button>
                     </div>
                 </div>
+
+                <h2>Checkout</h2>
+                <p>
+                    <strong>Name:</strong>
+                    <input v-model="order.name">
+                </p>
+                <p v-if="order.name !== '' && !validName">
+                    Name must contain letters only.
+                </p>
+                <p>
+                    <strong>Phone:</strong>
+                    <input v-model="order.phone" type="tel" maxlength="13">
+                </p>
+                <p v-if="order.phone !== '+971' && !validPhone">
+                    Phone must be a UAE mobile number, e.g. +971501234567.
+                </p>
+                <button v-on:click="submitForm" :disabled="!canCheckout">Checkout</button>
             </div>
         </div>
 

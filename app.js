@@ -4,7 +4,11 @@ let webStore = new Vue({
         site_name: 'After School Classes',
         courses: courses,
         cart: [],
-        showCourses: true
+        showCourses: true,
+        order: {
+            name: '',
+            phone: '+971'
+        }
     },
     methods: {
         addToCart(course) {
@@ -29,7 +33,7 @@ let webStore = new Vue({
             return count;
         },
         removeFromCart(course) {
-            // Build a new cart, leaving out one copy of this course
+            // Build a new cart by removing the particular item and pushing the rest of items in new cart and mapping the new cart back to cart
             let newCart = [];
             let removed = false;
             for (let i = 0; i < this.cart.length; i++) {
@@ -45,11 +49,27 @@ let webStore = new Vue({
             if (this.cart.length === 0) {
                 this.showCourses = true;
             }
+        },
+        submitForm() {
+            alert('Order submitted! Thank you, ' + this.order.name + '.');
         }
     },
     computed: {
         cartItemCount: function () {
             return this.cart.length || "";
+        },
+        validName() {
+            // Letters only (spaces allowed between words, e.g. "Rayaan Ali")
+            let nameRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+            return nameRegex.test(this.order.name);
+        },
+        validPhone() {
+            // UAE mobile: +971 followed by 5 and 8 more digits, e.g. +971501234567
+            let phoneRegex = /^\+9715[0-9]{8}$/;
+            return phoneRegex.test(this.order.phone);
+        },
+        canCheckout() {
+            return this.validName && this.validPhone;
         }
     }
 });
