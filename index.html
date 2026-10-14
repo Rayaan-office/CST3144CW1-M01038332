@@ -13,21 +13,42 @@
 
         <div id="app">
             <h1 v-text="site_name"></h1>
-            <p>Items in cart: {{cart.length}}</p>
-            <div v-for="course in courses" :key="course.id">
-                <h2 v-text="course.subject"></h2>
-                <figure>
-                    <img :src="course.image" :alt="course.subject" width="200px" height="200px">
-                </figure>
-                <p v-html="course.description"></p>
-                <p>Location: {{course.location}}</p>
-                <p>Price: AED {{course.price}}</p>
-                <p>Spaces: {{course.spaces}}</p>
-                <div>
-                    <span v-for="rating in course.rating">★</span>
-                    <span v-for="rating in 5 - course.rating">☆</span>
+            <button v-on:click="showCart" :disabled="cart.length === 0">
+                {{cartItemCount}} Shopping Cart
+            </button>
+
+            <div v-if="showCourses">
+                <div v-for="course in courses" :key="course.id">
+                    <h2 v-text="course.subject"></h2>
+                    <figure>
+                        <img :src="course.image" :alt="course.subject" width="200px" height="200px">
+                    </figure>
+                    <p v-html="course.description"></p>
+                    <p>Location: {{course.location}}</p>
+                    <p>Price: AED {{course.price}}</p>
+                    <p>Spaces: {{course.spaces}}</p>
+                    <div>
+                        <span v-for="rating in course.rating">★</span>
+                        <span v-for="rating in 5 - course.rating">☆</span>
+                    </div>
+                    <button v-on:click="addToCart(course)" :disabled="!canAddToCart(course)">Add to Cart</button>
                 </div>
-                <button v-on:click="addToCart(course)" :disabled="!canAddToCart(course)">Add to Cart</button>
+            </div>
+
+            <div v-else>
+                <h2>Shopping Cart</h2>
+                <div v-for="course in courses" :key="course.id">
+                    <div v-if="cartCount(course.id) > 0">
+                        <h3 v-text="course.subject"></h3>
+                        <figure>
+                            <img :src="course.image" :alt="course.subject" width="100px" height="100px">
+                        </figure>
+                        <p>Location: {{course.location}}</p>
+                        <p>Price: AED {{course.price}}</p>
+                        <p>Quantity: {{cartCount(course.id)}}</p>
+                        <button v-on:click="removeFromCart(course)">Remove</button>
+                    </div>
+                </div>
             </div>
         </div>
 
