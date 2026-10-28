@@ -18,7 +18,20 @@
             </button>
 
             <div v-if="showCourses">
-                <div v-for="course in courses" :key="course.id">
+                <p>
+                    <strong>Sort by:</strong>
+                    <select v-model="sortBy">
+                        <option value="subject">Subject</option>
+                        <option value="location">Location</option>
+                        <option value="price">Price</option>
+                        <option value="spaces">Spaces</option>
+                    </select>
+                    <select v-model="sortOrder">
+                        <option value="ascending">Ascending</option>
+                        <option value="descending">Descending</option>
+                    </select>
+                </p>
+                <div v-for="course in sortedCourses" :key="course.id">
                     <h2 v-text="course.subject"></h2>
                     <figure>
                         <img :src="course.image" :alt="course.subject" width="200px" height="200px">

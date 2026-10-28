@@ -5,6 +5,8 @@ let webStore = new Vue({
         courses: courses,
         cart: [],
         showCourses: true,
+        sortBy: 'subject',
+        sortOrder: 'ascending',
         order: {
             name: '',
             phone: '+971'
@@ -57,6 +59,27 @@ let webStore = new Vue({
     computed: {
         cartItemCount: function () {
             return this.cart.length || "";
+        },
+        sortedCourses() {
+            let coursesArray = this.courses.slice(0);
+            // Save these first, because "this" doesn't mean the Vue app inside compare
+            let sortBy = this.sortBy;
+            let sortOrder = this.sortOrder;
+            function compare(a, b) {
+                let result = 0;
+                if (a[sortBy] > b[sortBy]) {
+                    result = 1;
+                }
+                if (a[sortBy] < b[sortBy]) {
+                    result = -1;
+                }
+                // Flip the result to sort the other way
+                if (sortOrder === 'descending') {
+                    result = -result;
+                }
+                return result;
+            }
+            return coursesArray.sort(compare);
         },
         validName() {
             // Letters only (spaces allowed between words, e.g. "Rayaan Ali")
